@@ -431,26 +431,6 @@ try:
         print("Error selecting Terms and Conditions:", e)
         # # JavaScript fallback
         # try:
-        #     insurance_script = """
-        #     const insuranceLabel = document.querySelector('label[for="t1"]');
-        #     if (insuranceLabel) {
-        #         insuranceLabel.click();
-        #         return true;
-        #     }
-            
-        #     const insuranceInput = document.querySelector('input[id="t1"], input[value="MedicalInsurance"]');
-        #     if (insuranceInput) {
-        #         insuranceInput.checked = true;
-        #         const event = new Event('change', { bubbles: true });
-        #         insuranceInput.dispatchEvent(event);
-        #         return true;
-        #     }
-        #     return false;
-        #     """
-        #     insurance_success = driver.execute_script(insurance_script)
-        #     print(f"Selected Medical Insurance via JavaScript: {insurance_success}")
-        # except Exception as inner_e:
-        #     print(f"Error with JavaScript '': {inner_e}")
     
     # 21. Click on Captcha checkbox
     try:
@@ -465,28 +445,99 @@ try:
         print("Error selecting Captcha checkbox:", e)
         # # JavaScript fallback
         # try:
-        #     insurance_script = """
-        #     const insuranceLabel = document.querySelector('label[for="t1"]');
-        #     if (insuranceLabel) {
-        #         insuranceLabel.click();
-        #         return true;
-        #     }
-            
-        #     const insuranceInput = document.querySelector('input[id="t1"], input[value="MedicalInsurance"]');
-        #     if (insuranceInput) {
-        #         insuranceInput.checked = true;
-        #         const event = new Event('change', { bubbles: true });
-        #         insuranceInput.dispatchEvent(event);
-        #         return true;
-        #     }
-        #     return false;
-        #     """
-        #     insurance_success = driver.execute_script(insurance_script)
-        #     print(f"Selected Medical Insurance via JavaScript: {insurance_success}")
-        # except Exception as inner_e:
-        #     print(f"Error with JavaScript '': {inner_e}")
+
+    # 22 Click on Continue Button
+    try:
+        continue1 = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[@id='submit']"))
+        )
+        driver.execute_script("arguments[0].scrollIntoView(true);", continue1)
+        time.sleep(1)
+        driver.execute_script("arguments[0].click();", continue1)
+        print("Clicked on Continue button.")
+    except Exception as e:
+        print("Error Clicking on Continue button:", e)
+        # # JavaScript fallback
+        # try:
+
+    # 23. Click on I agree
+    try:
+        check_box = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, ".checkmark"))
+        )
+        driver.execute_script("arguments[0].scrollIntoView(true);", check_box)
+        time.sleep(1)
+        driver.execute_script("arguments[0].click();", check_box)
+        print("Clicked on I agree.")
+    except Exception as e:
+        print("Error Clicking on I agree checkbox:", e)
+
+
+    # 24. Fill First Name
+    try:
+        first_name = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//input[@id='sign_first_name']"))
+        )
+        driver.execute_script("arguments[0].scrollIntoView(true);", first_name)
+        first_name.clear()
+        first_name.send_keys("Hari")
+        print("Filled First Name as 'Hari'.")
+    except Exception as e:
+        print("Error filling First Name field:", e)
+
+
+    # 25. Fill Last Name
+    try:
+        last_name = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//input[@id='sign_last_name']"))
+        )
+        driver.execute_script("arguments[0].scrollIntoView(true);", last_name)
+        last_name.clear()
+        last_name.send_keys("Sachdeva")
+        print("Filled Last Name as 'Sachdeva'.")
+    except Exception as e:
+        print("Error filling Last Name field:", e)
+
+    # 26. Click on Im not a robot
+    try:
+        Captcha = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "div[class='recaptcha-checkbox-border']"))
+        )
+        driver.execute_script("arguments[0].scrollIntoView(true);", Captcha)
+        time.sleep(1)
+        driver.execute_script("arguments[0].click();", Captcha)
+        print("Selected 'Captcha' check box.")
+    except Exception as e:
+        print("Error selecting Captcha checkbox:", e)
+
+    # 27. Click on Enroll
+    try:
+        Enroll = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[@id='submit']"))
+        )
+        driver.execute_script("arguments[0].scrollIntoView(true);", Enroll)
+        time.sleep(1)
+        driver.execute_script("arguments[0].click();", Enroll)
+        print("Clicked Enroll.")
+    except Exception as e:
+        print("Error Clicking Enroll:", e)
     
-    # Take a screenshot of the final state
+    # 28. Scroll to Detailed view   
+    try:
+        Detail_box = driver.find_element(By.XPATH,"//div[@class='register-col-box']")
+            # EC.element_to_be_clickable((By.XPATH, "//div[@class='register-col-box']"))
+        # )
+        driver.execute_script("arguments[0].scrollIntoView(true);", Detail_box)
+        time.sleep(1)
+        driver.execute_script("window.scrollBy(0, -200);")  # Scroll up by 200 pixels Optional
+        time.sleep(1)
+        driver.execute_script("arguments[0].click();", Detail_box)
+        print("Selected Detail box.")
+    except Exception as e:
+        print("Error selecting Detail box:", e)
+    
+    # Take a screenshot of the final state - If view is not enough, make the driver to full screen 
+    time.sleep(10)
     driver.save_screenshot("final_result.png")
     print("\nSaved screenshot of final state to 'final_result.png'")
     
