@@ -237,9 +237,9 @@ try:
         except Exception as e:
             print("Error :", e)
 
-        try:    #   Click Continue
+        try:    #   Checkbox Patient Caregiver
             click = WebDriverWait(driver, 10).until(
-                EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Continue']"))
+                EC.element_to_be_clickable((By.XPATH, "//label[@for='checkbox-64']//span[@class='slds-checkbox_faux']"))
             )
             driver.execute_script("arguments[0].scrollIntoView(true);", click)
             time.sleep(1)
@@ -247,6 +247,93 @@ try:
             
         except Exception as e:
             print("Error :", e)
+
+        try:    # First Name
+            click = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//input[@id='input-188']"))
+            )
+            driver.execute_script("arguments[0].scrollIntoView(true);", click)
+            time.sleep(1)
+            # driver.execute_script("arguments[0].click();", click)
+            click.clear()
+            click.send_keys("Anoj")
+        except Exception as e:
+            print("Error :", e)
+
+        try:    # Last Name
+            click = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//input[@id='input-189']"))
+            )
+            driver.execute_script("arguments[0].scrollIntoView(true);", click)
+            time.sleep(1)
+            # driver.execute_script("arguments[0].click();", click)
+            click.clear()
+            click.send_keys("Vishwa")
+        except Exception as e:
+            print("Error :", e)
+
+        try:    # Email
+            click = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//input[@id='input-195']"))
+            )
+            driver.execute_script("arguments[0].scrollIntoView(true);", click)
+            time.sleep(1)
+            # driver.execute_script("arguments[0].click();", click)
+            click.clear()
+            click.send_keys("anoj.vishwanathan+remicade@gmail.com")
+        except Exception as e:
+            print("Error :", e)
+
+        try:    #   Phone
+            click = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//input[@id='input-196']"))
+            )
+            driver.execute_script("arguments[0].scrollIntoView(true);", click)
+            time.sleep(1)
+            # driver.execute_script("arguments[0].click();", click)
+            click.clear()
+            click.send_keys("6193248725")
+        except Exception as e:
+            print("Error :", e)
+
+        try:    #   Type
+            click = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//button[@id='combobox-button-199']"))
+            )
+            driver.execute_script("arguments[0].scrollIntoView(true);", click)
+            time.sleep(1)
+            driver.execute_script("arguments[0].click();", click)
+            dropdown=WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//lightning-base-combobox-item[@id='combobox-button-199-1-199']")) # Mobile
+            )
+            time.sleep(1)
+            driver.execute_script("arguments[0].click();", dropdown)
+            
+        except Exception as e:
+            print("Error :", e)
+
+        try:    #   Checkbox Caregiver's address is the same as the Patient's address
+            click = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//label[@for='checkbox-202']//span[@class='slds-checkbox_faux']"))
+            )
+            driver.execute_script("arguments[0].scrollIntoView(true);", click)
+            time.sleep(1)
+            driver.execute_script("arguments[0].click();", click)
+            
+        except Exception as e:
+            print("Error :", e)
+
+
+        # try:    #   Click Continue
+        #     click = WebDriverWait(driver, 10).until(
+        #         EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Continue']"))
+        #     )
+        #     driver.execute_script("arguments[0].scrollIntoView(true);", click)
+        #     time.sleep(1)
+        #     driver.execute_script("arguments[0].click();", click)
+            
+        # except Exception as e:
+        #     print("Error :", e)
 
         
     except Exception as e:
