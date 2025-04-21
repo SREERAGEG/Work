@@ -41,6 +41,6 @@ def data_mapping_platoforms_benlysta(data):
         if "Primary Insurance Member ID" == i.get("label"):
             user_data["Primary_Insurance_Member_ID"]=i.get("value")
     return user_data
-print(data_mapping_platoforms_benlysta(data))
-
-    
+# print(data_mapping_platoforms_benlysta(data))
+with open("processed_json.json", "w") as file:
+    json.dump(data_mapping_platoforms_benlysta(data), file)
