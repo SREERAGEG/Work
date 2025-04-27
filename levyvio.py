@@ -156,7 +156,8 @@ def automate_patient_enrollment(processed_json):
         # Fill in Date of Birth
         dob_field = wait.until(EC.element_to_be_clickable((By.ID, "DateOfBirth")))
         dob_field.clear()
-        dob_field.send_keys(processed_json[""] if processed_json[""] else "01/16/2003")
+        # dob_field.send_keys(processed_json[""] if processed_json[""] else "01/16/2003")
+        dob_field.send_keys("01/16/2003")
         print("Filled in Date of Birth")
         
         # Press ENTER to exit the date field
@@ -416,7 +417,14 @@ def automate_patient_enrollment(processed_json):
         print(f"An error occurred: {e}")
     
     finally:
+        try:
+            driver.save_screenshot("final_screenshot_levyvio.png")
+            print("Screenshot saved as final_screenshot_levyvio.png")
+        except:
+            print("Failed to save screenshot")
+
         # Close the browser
+        time.sleep(20)
         driver.quit()
         print("Browser closed")
 

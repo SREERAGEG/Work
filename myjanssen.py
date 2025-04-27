@@ -357,6 +357,6 @@ try:
 except Exception as e:
     print("A major error occurred:", e)
 finally:
-    # time.sleep(20)
+    time.sleep(60)
 
-    driver.quit()
+    # driver.quit()

@@ -307,7 +307,8 @@ def automate_entyvio_form(processed_json):
             EC.presence_of_element_located((By.ID, "Prescriber_FirstName"))
         )
         prescriber_first_name.clear()
-        prescriber_first_name.send_keys(processed_json[""] if processed_json[""] else "Anoj")
+        # prescriber_first_name.send_keys(processed_json[""] if processed_json[""] else "Anoj")
+        prescriber_first_name.send_keys("Anoj")
         time.sleep(1)
         
         # Step 25: Fill in Prescriber's Last Name
@@ -316,7 +317,8 @@ def automate_entyvio_form(processed_json):
             EC.presence_of_element_located((By.ID, "Prescriber_LastName"))
         )
         prescriber_last_name.clear()
-        prescriber_last_name.send_keys(processed_json[""] if processed_json[""] else "Vishwanathan")
+        # prescriber_last_name.send_keys(processed_json[""] if processed_json[""] else "Vishwanathan")
+        prescriber_last_name.send_keys("Vishwanathan")
         time.sleep(1)
         
         # Step 26: Fill in Prescriber's Phone Number
@@ -325,7 +327,8 @@ def automate_entyvio_form(processed_json):
             EC.presence_of_element_located((By.ID, "Prescriber_Phone"))
         )
         prescriber_phone.clear()
-        prescriber_phone.send_keys(processed_json[""] if processed_json[""] else "415-555-7890")  # Valid US format number
+        # prescriber_phone.send_keys(processed_json[""] if processed_json[""] else "415-555-7890")  # Valid US format number
+        prescriber_phone.send_keys("415-555-7890")  # Valid US format number
         time.sleep(1)
         
         # Step 27: Fill in Prescriber's Address Line 1
@@ -334,7 +337,8 @@ def automate_entyvio_form(processed_json):
             EC.presence_of_element_located((By.ID, "Prescriber_Address1"))
         )
         prescriber_address.clear()
-        prescriber_address.send_keys(processed_json[""] if processed_json[""] else "Powell")
+        # prescriber_address.send_keys(processed_json[""] if processed_json[""] else "Powell")
+        prescriber_address.send_keys("Powell")
         time.sleep(1)
         
         # Step 28: Fill in Prescriber's ZIP Code
@@ -343,7 +347,8 @@ def automate_entyvio_form(processed_json):
             EC.presence_of_element_located((By.ID, "Prescriber_Zip"))
         )
         prescriber_zip.clear()
-        prescriber_zip.send_keys(processed_json[""] if processed_json[""] else "94102")  # Valid San Francisco zipcode
+        # prescriber_zip.send_keys(processed_json[""] if processed_json[""] else "94102")  # Valid San Francisco zipcode
+        prescriber_zip.send_keys("94102")  # Valid San Francisco zipcode
         time.sleep(1)
         
         # Step 29: Fill in Prescriber's City
@@ -352,7 +357,8 @@ def automate_entyvio_form(processed_json):
             EC.presence_of_element_located((By.ID, "Prescriber_City"))
         )
         prescriber_city.clear()
-        prescriber_city.send_keys(processed_json[""] if processed_json[""] else "San Francisco")
+        # prescriber_city.send_keys(processed_json[""] if processed_json[""] else "San Francisco")
+        prescriber_city.send_keys("San Francisco")
         time.sleep(1)
         
         # Step 30: Select CA from Prescriber's State dropdown
@@ -400,7 +406,7 @@ def automate_entyvio_form(processed_json):
             EC.presence_of_element_located((By.ID, "DigitalSignature_FirstName"))
         )
         dig_sig_first_name.clear()
-        dig_sig_first_name.send_keys(processed_json[""] if processed_json[""] else "Hari")
+        dig_sig_first_name.send_keys(processed_json["First_name"] if processed_json["First_name"] else "Hari")
         time.sleep(1)
         
         # Step 33: Fill in Digital Signature Last Name
@@ -409,7 +415,7 @@ def automate_entyvio_form(processed_json):
             EC.presence_of_element_located((By.ID, "DigitalSignature_LastName"))
         )
         dig_sig_last_name.clear()
-        dig_sig_last_name.send_keys(processed_json[""] if processed_json[""] else "Sachdeva")
+        dig_sig_last_name.send_keys(processed_json["Last_name"] if processed_json["Last_name"] else "Sachdeva")
         time.sleep(1)
         
         # Step 34: Fill in Digital Signature Enrollment First Name
@@ -418,7 +424,7 @@ def automate_entyvio_form(processed_json):
             EC.presence_of_element_located((By.ID, "DigitalSignatureEnrollment_FirstName"))
         )
         dig_sig_enroll_first_name.clear()
-        dig_sig_enroll_first_name.send_keys(processed_json[""] if processed_json[""] else "Hari")
+        dig_sig_enroll_first_name.send_keys(processed_json["First_name"] if processed_json["First_name"] else "Hari")
         time.sleep(1)
         
         # Step 35: Fill in Digital Signature Enrollment Last Name
@@ -427,7 +433,7 @@ def automate_entyvio_form(processed_json):
             EC.presence_of_element_located((By.ID, "DigitalSignatureEnrollment_LastName"))
         )
         dig_sig_enroll_last_name.clear()
-        dig_sig_enroll_last_name.send_keys(processed_json[""] if processed_json[""] else "Sachdeva")
+        dig_sig_enroll_last_name.send_keys(processed_json["Last_name"] if processed_json["Last_name"] else "Sachdeva")
         time.sleep(1)
         
         # Step 36: Click the "Continue" button
@@ -451,6 +457,12 @@ def automate_entyvio_form(processed_json):
             print("Failed to save screenshot")
     
     finally:
+        try:
+            driver.save_screenshot("final_screenshot_entyvio.png")
+            print("Screenshot saved as final_screenshot_entyvio.png")
+        except:
+            print("Failed to save screenshot")
+
         # Close the browser
         driver.quit()
         print("Browser closed.")
