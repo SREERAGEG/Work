@@ -296,7 +296,7 @@ def automate_patient_enrollment(processed_json):
         driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", phone_field)
         time.sleep(1)
         phone_field.clear()
-        phone_field.send_keys(processed_json["Contact_number"] if processed_json["Contact_number"] else "2065551234")  # Valid US phone number format
+        phone_field.send_keys(processed_json["Contact_number"].split()[-1] if processed_json["Contact_number"] else "2065551234")  # Valid US phone number format
         print("Filled in Phone Number")
         
         # Handle PhoneType dropdown selection
@@ -304,7 +304,16 @@ def automate_patient_enrollment(processed_json):
         
         # Handle co-pay signup dropdown - select "Yes"
         handle_dropdown_selection(driver, wait, "incCoPaySignUp", "Yes", "Yes")
-        
+
+        try:
+            checkbox = driver.find_element(By.ID, "incCoPaySignUpYes")
+            # Scroll to the button
+            driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", checkbox)
+            time.sleep(2)
+            checkbox.click()
+        except Exception as e:
+            print(e,"Error at incCoPaySignUpYes")
+
         # Check the "incAgreePhoneText" checkbox
         try:
             # Scroll to the checkbox to ensure it's visible
@@ -368,6 +377,44 @@ def automate_patient_enrollment(processed_json):
                             print(f"Label click for incAgreeReadAuth failed: {label_e}")
             else:
                 print("incAgreeReadAuth checkbox is already selected")
+            time.sleep(2)
+            try:
+                # click the patient authorization 
+                click_element = driver.find_element(By.XPATH, "//a[normalize-space()='Patient Authorization']")
+                # Scroll to the button
+                driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", click_element)
+                time.sleep(2)
+                click_element.click()
+
+                # Wait for the scrollable div inside the modal
+                scrollable_div = WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, ".modal-body-copy.jcf-scrollable"))
+                )
+
+                # Scroll the div to the bottom using JavaScript
+                driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", scrollable_div)
+
+                time.sleep(2)
+
+                name_input = WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH, "//input[@id='incAuthFullName']"))
+                )
+                name_input.clear()
+                full_name=processed_json["First_name"]+ (f" {processed_json["Last_name"]}" if len(processed_json["Last_name"]) else "")
+                name_input.send_keys(full_name)
+                time.sleep(1)
+                submit_btn = WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH, "//button[@class='btn btn-primary col align-self-center']")))
+                submit_btn.click()
+
+            except Exception as e:
+                # click close btn
+                close_btn = WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH, "//div[@id='modal-patient-auth']//div[@class='modal-close-btn']")))
+                close_btn.click()
+                time.sleep(1)
+                print(e,"Error at - click the patient authorization link")
+
         except Exception as e:
             print(f"Error interacting with incAgreeReadAuth checkbox: {e}")
             
@@ -424,7 +471,7 @@ def automate_patient_enrollment(processed_json):
             print("Failed to save screenshot")
 
         # Close the browser
-        time.sleep(20)
+        time.sleep(40)
         driver.quit()
         print("Browser closed")
 

@@ -7,4 +7,7 @@ def get_processed_json():
     except:
         print("Load json file failed")
 
-print(get_processed_json())
+# print(get_processed_json()["Contact_number"].split()[-1])
+processed_json=get_processed_json()
+full_name=processed_json["First_name"]+ (f" {processed_json["Last_name"]}" if len(processed_json["Last_name"]) else "")
+print(full_name)
