@@ -554,6 +554,84 @@ try:
     continue_button.click()
 
 
+    # Patient Information page
+    try:
+        try:
+            address=driver.find_element(By.XPATH,"")
+        except Exception as e:
+            print(e)
+
+        try:
+            city=driver.find_element(By.XPATH,"")
+        except Exception as e:
+            print(e)
+
+        try:
+            state=driver.find_element(By.XPATH,"")
+        except Exception as e:
+            print(e)
+
+        try:
+            ph_no=driver.find_element(By.XPATH,"")
+        except Exception as e:
+            print(e)
+
+        try:
+            Insurance_comp_name=driver.find_element(By.XPATH,"")
+        except Exception as e:
+            print(e)
+
+        try:
+            plan_type=driver.find_element(By.XPATH,"")
+        except Exception as e:
+            print(e)
+
+        try:
+            group_no=driver.find_element(By.XPATH,"")
+        except Exception as e:
+            print(e)
+
+        try:
+            member_no=driver.find_element(By.XPATH,"")
+        except Exception as e:
+            print(e)
+
+        try:
+            effective_date=driver.find_element(By.XPATH,"")
+        except Exception as e:
+            print(e)
+
+        try:
+            bin=driver.find_element(By.XPATH,"")
+        except Exception as e:
+            print(e)
+
+        try:
+            pcn=driver.find_element(By.XPATH,"")
+        except Exception as e:
+            print(e)
+
+        try:
+            not_have_pharmacy_insurance=driver.find_element(By.XPATH,"")
+        except Exception as e:
+            print(e)
+
+        try:
+            continue_btn=WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//button[.//span[text()='Continue']]"))
+            )
+
+            # Scroll into view if needed and click
+            driver.execute_script("arguments[0].scrollIntoView(true);", continue_button)
+            time.sleep(1)
+            continue_button.click()
+        except Exception as e:
+            print(e)
+            
+    except Exception as e:
+        print(e,"Error in page Patient Information")
+
+
 except Exception as e:
     print("An error occurred:", e)
 
