@@ -1,5 +1,5 @@
 from selenium import webdriver
-import undetected_chromedriver as uc
+# import undetected_chromedriver as uc
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -485,44 +485,78 @@ try:
                     
     # Handle Health Data Processing Checkbox
     try:
-        print("CHECKING THE LAST CHECK BOX...")
-        driver.find_element(By.XPATH, "//ol[@class='eligibilityQuesWrap']/li[6]/div/epl-portal-question/div/div/div/div/span/mat-checkbox/div/div/input").click()
-        time.sleep(5)
-    except Exception as ex:
-        print("Exception:",ex)
+        time.sleep(1)
 
-    try:
-        print("Clicking ACCEPTING .")
-        driver.find_element(By.XPATH, "//button[@id='button-accept']").click()
-        time.sleep(5)
-    except Exception as ex:
-        print("Exception:",ex)
+        checkbox=driver.find_element(By.XPATH,"//input[@name='third-party-disclosure']")
+        driver.execute_script("arguments[0].scrollIntoView(true);", checkbox)
+        time.sleep(1)
+        checkbox.click()  # Click to check the box
 
-    try:
-        print("Clicking Continue .")
-        driver.find_element(By.XPATH, "//button[@class='mdc-button mat-mdc-button mat-primary mat-mdc-button-base ng-star-inserted']").click()
-        time.sleep(10)
-    except Exception as ex:
-        print("Exception:", ex)
 
-    print("Continue BUTTON...")
+        try:
+            # Wait for dialog to appear
+            dialog_container = WebDriverWait(driver, 10).until(
+                EC.visibility_of_element_located((By.CSS_SELECTOR, "mat-dialog-container"))
+            )            
+            # Find the scrollable content element
+            scrollable_content = dialog_container.find_element(By.CSS_SELECTOR, "mat-dialog-content")
 
-    # Verify we've moved past this screen
-    # try:
-    #     # Wait for loading indicator to disappear
-    #     WebDriverWait(driver, 15).until(
-    #         EC.invisibility_of_element_located((By.CSS_SELECTOR, "div.spinner-container, mat-progress-spinner"))
-    #     )
-    #
-    #     # Check if we're on a new page/section
-    #     time.sleep(3)
-    #     current_url = driver.current_url
-    #     print(f"Current URL after continue attempt: {current_url}")
-    #
-    # except Exception as e:
-    #     print(f"Could not verify page transition: {e}")
+            # Get the scroll height
+            scroll_height = driver.execute_script("return arguments[0].scrollHeight", scrollable_content)
+            
+            # Scroll incrementally with pauses
+            current_position = 0
+            step_size = 150  # px per step
+            
+            while current_position < scroll_height:
+                current_position += step_size
+                # Use JavaScript to scroll the element
+                driver.execute_script("""
+                    arguments[0].scrollTop = arguments[1];
+                    arguments[0].dispatchEvent(new Event('scroll'));
+                """, scrollable_content, current_position)
+                
+                # Add a short delay between scrolls
+                time.sleep(0.5)
+                
+            # Final scroll to ensure we've reached the bottom
+            driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", scrollable_content)
+            print("Successfully scrolled to the bottom of dialog.")
+            
+            # Wait for any scroll-triggered events
+            time.sleep(2)
+        except :
+            print("Scroll error")   
+
+        # Click the Accept button
+        accept_button = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//div[normalize-space()='Accept']"))
+        )
+        driver.execute_script("arguments[0].scrollIntoView(true);", accept_button)
+        time.sleep(1)
+        accept_button.click()
+    except Exception as e:
+        print(e,"Error at Health Data Processing Checkbox")
+
+
+    # click Continue button
+    time.sleep(1)
+    # driver.find_element(By.XPATH,"//button[@class='mdc-button mat-mdc-button mat-primary mat-mdc-button-base ng-star-inserted']//span[@class='mat-mdc-button-touch-target']").click()
+    
+    # Wait for the enabled "Continue" button and click it
+    continue_button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//button[.//span[text()=' Continue ']]"))
+    )
+
+    # Scroll into view if needed and click
+    driver.execute_script("arguments[0].scrollIntoView(true);", continue_button)
+    time.sleep(1)
+    continue_button.click()
+
+
 except Exception as e:
     print("An error occurred:", e)
 
 finally:
+    input("Press Enter to exit")
     driver.quit()
